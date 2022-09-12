@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -18,6 +19,10 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
 {
     protected const HEADER_AUTH_TOKEN = 'AUTH-TOKEN';
     protected const AUTH_TOKEN = 'token';
+
+    public function __construct(protected LoggerInterface $logger)
+    {
+    }
 
     /**
      * @inheritDoc
