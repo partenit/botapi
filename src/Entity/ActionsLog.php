@@ -54,9 +54,7 @@ class ActionsLog
      * @var \Actions
      *
      * @ORM\ManyToOne(targetEntity="Actions")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="action_id", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $action;
 

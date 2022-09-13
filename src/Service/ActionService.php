@@ -6,7 +6,6 @@ use App\Entity\ActionsLog;
 use App\Model\Action;
 use App\Repository\ActionLogRepository;
 use App\Repository\ActionRepository;
-use App\Request\ActionRequest;
 use Doctrine\Common\Collections\Criteria;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,16 +78,22 @@ class ActionService
     public function actionDelete(Request $request)
     {
         $action = $this->actionRepository->findOneBy([
-            'name' => $request->get('name')
+            'name' => $request->get('name'),
+            'chat' => $request->get('chat')
         ]);
 
         if (is_object($action)) {
-            $this->logger->info(json_encode($action));
+            $this->actionRepository->remove($action, true);
+
+            return [
+                'status' => Response::HTTP_OK,
+                'message' => 'Action is deleted'
+            ];
         }
 
         return [
-            'status' => Response::HTTP_OK,
-            'message' => 'Action is deleted'
+            'status' => Response::HTTP_UNPROCESSABLE_ENTITY,
+            'message' => 'Unable to delete Action'
         ];
     }
 }
